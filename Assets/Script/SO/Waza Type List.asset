@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd14c1675403945869ccb3bf5b35912d, type: 3}
+  m_Name: Waza Type List
+  m_EditorClassIdentifier: 
+  wazaTypeSOs:
+  - {fileID: 11400000, guid: 3bc3e2554cffb49ea8b95a5f7b9c377e, type: 2}
+  - {fileID: 11400000, guid: f015185835b4c42489bdf00f6dc9e6de, type: 2}
+  - {fileID: 11400000, guid: 2778706bc1d2f43c89ae1d0a06182b76, type: 2}
+  - {fileID: 11400000, guid: 86b5d5e32eebf47f488635684b0d60b7, type: 2}
+  - {fileID: 11400000, guid: 3a849ac0dc6754c17925f165e7ea2940, type: 2}
+  - {fileID: 11400000, guid: d3e2a244e607745358b79b8695941466, type: 2}
+  - {fileID: 11400000, guid: 0719f60e17fd94dc5afa823cbf87487c, type: 2}
+  - {fileID: 11400000, guid: e65814b860b0542a9b565f4c6c05d090, type: 2}
+  - {fileID: 11400000, guid: 04c44352a715347b08224fd1531255d0, type: 2}
