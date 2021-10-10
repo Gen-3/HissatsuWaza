@@ -29,7 +29,7 @@ public class EnemyManager : MonoBehaviour
     public int[] waza7 = new int[8];
     public int[][] wazaList = new int[7][];
 
-    bool endTurn;
+    public bool endTurn;
     int turnProgressCount;
     int R;
     int S;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    [SerializeField] EnemyManager enemy;
+
     public int maxHp;
     public int hp;
     public int interval;
@@ -29,7 +31,8 @@ public class PlayerManager : MonoBehaviour
     public int[] waza7 = new int[8];
     public int[][] wazaList = new int[7][];
 
-    bool endTurn;
+    public bool endTurn;
+    public bool endCalculate;
     int turnProgressCount;
     int R;
     int S;
@@ -37,6 +40,7 @@ public class PlayerManager : MonoBehaviour
     bool notRepeated;
     int totalDamage;
 
+    public AudioManager audioManager;
 
     void Start()
     {
@@ -84,7 +88,12 @@ public class PlayerManager : MonoBehaviour
 
 
 
-    public int PlayerTurn()
+    public void PlayerTurn()
+    {
+        StartCoroutine("PlayerTurnCor");
+    }
+
+    IEnumerator PlayerTurnCor()
     {
         endTurn = false;
         wazaHistory.Clear();
@@ -98,10 +107,14 @@ public class PlayerManager : MonoBehaviour
             WazaSuccessJudge();//技の成功判定
 
             WazaChainJudge();//技の連携判定（攻撃の継続判定）
+            yield return new WaitForSecondsRealtime(0.7f);
+
         }
+        enemy.hp -= totalDamage;
+        yield return new WaitForSecondsRealtime(1.5f);
 
         Debug.Log($"ダメージの合計は{totalDamage}。Playerターンエンド。～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～");
-        return totalDamage;
+        endCalculate = true;
     }
 
     void WazaSelect()
@@ -139,11 +152,13 @@ public class PlayerManager : MonoBehaviour
         Debug.Log($"成功判定の乱数は{S}（この数字が{wazaList[R][0]}より低いならば攻撃成功）");
         if (wazaList[R][0] >= S)//成功の場合（R番目に選ばれた技の要素0（＝命中率）を参照している）
         {
+            audioManager.audioSource.PlayOneShot(audioManager.clipList[0]);
             Debug.Log($"{turnProgressCount}撃目：{wazanameList[R]}{wazaTypeSO.wazaTypeName}!!敵に{wazaList[R][1] * wazaTypeSO.zangekiRate / 100 + wazaList[R][2] * wazaTypeSO.sitotsuRate / 100 + wazaList[R][3] * wazaTypeSO.dagekiRate / 100}のダメージ");//その技の斬撃/刺突/打撃ダメージと技タイプの係数を乗算してダメージを求めている
             totalDamage += wazaList[R][1] * wazaTypeSO.zangekiRate / 100 + wazaList[R][2] * wazaTypeSO.sitotsuRate / 100 + wazaList[R][3] * wazaTypeSO.dagekiRate / 100;
         }
         else//失敗の場合
         {
+            audioManager.audioSource.PlayOneShot(audioManager.clipList[1]);
             Debug.Log($"playerの{wazanameList[R]}{wazaTypeSO.wazaTypeName}は失敗した（成功率{wazaList[R][0]}未満で成功、成功判定の乱数は{S}でした）");
         }
 

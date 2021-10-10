@@ -47,4 +47,6 @@ public class UIManager : MonoBehaviour
         enemyHPGauge.fillAmount = 100f * enemy.hp / enemy.maxHp / 100f;
 
     }
+
+
 }

@@ -38,10 +38,12 @@ public class BattleManager : MonoBehaviour
     IEnumerator PlayerTurn()
     {
         Debug.Log("playerのターン");
-        int damage = player.PlayerTurn();
-        yield return new WaitForSeconds(3f);
+
+        player.endCalculate = false;
+        player.PlayerTurn();
+        yield return new WaitUntil(()=>player.endCalculate==true) ;
+
         Debug.Log("playerTurn終了");
-        enemy.hp -= damage;
         if (enemy.hp <= 0)
         {
             Debug.Log("決着");
@@ -55,7 +57,7 @@ public class BattleManager : MonoBehaviour
     {
         Debug.Log("enemyのターン");
         int damage = enemy.EnemyTurn();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitUntil(() => enemy.endTurn == true);
         Debug.Log("EnemyTurn終了");
         player.hp -= damage;
         if (player.hp <= 0)
