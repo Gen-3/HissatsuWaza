@@ -238,7 +238,7 @@ MonoBehaviour:
   weaponSO: {fileID: 0}
   wazaTypeListSO: {fileID: 11400000, guid: caafa5832b71146b39c648325a70fafe, type: 2}
   wazaTypeSO: {fileID: 0}
-  wazaNameListSO: {fileID: 11400000, guid: 1db90084709f64dafbbb58639af4a63e, type: 2}
+  wazaNameListSO: {fileID: 11400000, guid: 9a88fb6dfa2b5874ebab9978ac3389c8, type: 2}
   waza1Name: 
   waza2Name: 
   waza3Name: 
@@ -414,7 +414,7 @@ MonoBehaviour:
   weaponSO: {fileID: 0}
   wazaTypeListSO: {fileID: 11400000, guid: caafa5832b71146b39c648325a70fafe, type: 2}
   wazaTypeSO: {fileID: 0}
-  wazaNameListSO: {fileID: 11400000, guid: 1db90084709f64dafbbb58639af4a63e, type: 2}
+  wazaNameListSO: {fileID: 11400000, guid: 9a88fb6dfa2b5874ebab9978ac3389c8, type: 2}
   waza1Name: 
   waza2Name: 
   waza3Name: 
@@ -705,6 +705,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7897452501213681370, guid: dff62243de3f54727829ba82a899d32d, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: a5327a46c53c24a4998ad4fd243710f7, type: 3}
+    - target: {fileID: 7897452501213681370, guid: dff62243de3f54727829ba82a899d32d, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7897452502850022576, guid: dff62243de3f54727829ba82a899d32d, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: a5327a46c53c24a4998ad4fd243710f7, type: 3}
+    - target: {fileID: 7897452502850022576, guid: dff62243de3f54727829ba82a899d32d, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7897452502850022576, guid: dff62243de3f54727829ba82a899d32d, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dff62243de3f54727829ba82a899d32d, type: 3}
 --- !u!224 &940116285 stripped
@@ -937,9 +957,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Elite
       objectReference: {fileID: 0}
+    - target: {fileID: 5137360782640111445, guid: 3f71fdadab61b4b0caefc31f0466887c, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: a5327a46c53c24a4998ad4fd243710f7, type: 3}
+    - target: {fileID: 5137360782640111445, guid: 3f71fdadab61b4b0caefc31f0466887c, type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 52
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137360782640111445, guid: 3f71fdadab61b4b0caefc31f0466887c, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137360782640111445, guid: 3f71fdadab61b4b0caefc31f0466887c, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5137360782697421110, guid: 3f71fdadab61b4b0caefc31f0466887c, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: a5327a46c53c24a4998ad4fd243710f7, type: 3}
+    - target: {fileID: 5137360782697421110, guid: 3f71fdadab61b4b0caefc31f0466887c, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5137360783151271480, guid: 3f71fdadab61b4b0caefc31f0466887c, type: 3}
       propertyPath: m_FillAmount
-      value: 1
+      value: 0.671
       objectReference: {fileID: 0}
     - target: {fileID: 5137360783741060415, guid: 3f71fdadab61b4b0caefc31f0466887c, type: 3}
       propertyPath: m_Enabled

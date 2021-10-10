@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1376741a49844a0a798c0f25a2d92d, type: 3}
+  m_Name: New Waza Name List SO 1
+  m_EditorClassIdentifier: 
+  wazaList:
+  - "\u88C2\u7A7A"
+  - "\u6B8B\u5149"
+  - "\u65CB\u98A8"
+  - "\u6EC5\u7815"
+  - "\u795E\u7F70"
+  - "\u5272\u6BBA"
+  - "\u9ED2\u7ADC"
+  - "\u795E\u7ADC"
+  - "\u767E\u70C8"
+  - "\u5343\u70C8"
+  - "\u6CE2\u52D5"
+  - "\u6483\u6EC5"
+  - "\u5730\u7344"
+  - "\u96F7\u795E"
+  - "\u98A8\u795E"
+  - "\u660E\u93E1"
+  - "\u771F\u738B"
+  - "\u706B\u708E"
+  - "\u96F7\u9CF4"
+  - "\u8FC5\u96F7"
+  - "\u6D41\u6C34"
+  - "\u6C37\u7D50"
+  - "\u7D50\u6676"
+  - "\u7206\u708E"
+  - "\u75BE\u96BC"
+  - "\u731B\u864E"
+  - "\u8C6A\u8987"
+  - "\u660E\u93E1"
+  - "\u75BE\u98A8"
+  - "\u8FC5\u96F7"
+  - "\u7E5A\u4E71"
+  - "\u4E0D\u6493"
+  - "\u7121\u53CC"
+  - "\u6D41\u6C34"
+  - "\u98A8\u6708"
+  - "\u7121\u53CC"
