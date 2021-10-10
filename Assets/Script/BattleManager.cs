@@ -8,6 +8,7 @@ public class BattleManager : MonoBehaviour
     public bool timeGoesBy=true;
     [SerializeField]PlayerManager player;
     [SerializeField]EnemyManager enemy;
+    public UIManager uIManager;
 
     void Start()
     {
@@ -37,18 +38,33 @@ public class BattleManager : MonoBehaviour
     IEnumerator PlayerTurn()
     {
         Debug.Log("playerのターン");
-        player.PlayersTurn();
+        int damage = player.PlayerTurn();
         yield return new WaitForSeconds(3f);
         Debug.Log("playerTurn終了");
-        timeGoesBy = true;
-
+        enemy.hp -= damage;
+        if (enemy.hp <= 0)
+        {
+            Debug.Log("決着");
+        }
+        else
+        {
+            timeGoesBy = true;
+        }
     }
     IEnumerator EnemyTurn()
     {
         Debug.Log("enemyのターン");
+        int damage = enemy.EnemyTurn();
         yield return new WaitForSeconds(3f);
         Debug.Log("EnemyTurn終了");
-        timeGoesBy = true;
-
+        player.hp -= damage;
+        if (player.hp <= 0)
+        {
+            Debug.Log("決着");
+        }
+        else
+        {
+            timeGoesBy = true;
+        }
     }
 }

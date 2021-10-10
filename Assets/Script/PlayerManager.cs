@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public int maxHp;
     public int hp;
     public int interval;
     public WeaponListSO weaponListSO;
@@ -28,6 +29,14 @@ public class PlayerManager : MonoBehaviour
     public int[] waza7 = new int[8];
     public int[][] wazaList = new int[7][];
 
+    bool endTurn;
+    int turnProgressCount;
+    int R;
+    int S;
+    List<int> wazaHistory = new List<int>();
+    bool notRepeated;
+    int totalDamage;
+
 
     void Start()
     {
@@ -50,18 +59,6 @@ public class PlayerManager : MonoBehaviour
         wazaList[5] = waza6;
         wazaList[6] = waza7;
 
-
-        //for (int wazaNumber = 0; i < 7; i++)
-        //{
-        //    wazaList[i][]
-
-        //    for (int parameter = 0; j < 8; j++)
-        //    {
-        //        wazaList[wazaNumber][parameter] =
-        //            }
-
-
-
         waza1Name = wazaNameListSO.wazaList[Random.Range(0, wazaNameListSO.wazaList.Count)];
         waza2Name = wazaNameListSO.wazaList[Random.Range(0, wazaNameListSO.wazaList.Count)];
         waza3Name = wazaNameListSO.wazaList[Random.Range(0, wazaNameListSO.wazaList.Count)];
@@ -77,6 +74,7 @@ public class PlayerManager : MonoBehaviour
         wazanameList[5] = waza6Name;
         wazanameList[6] = waza7Name;
 
+        hp = maxHp;
     }
 
     void Update()
@@ -84,102 +82,38 @@ public class PlayerManager : MonoBehaviour
         
     }
 
-    public void PlayersTurn()
+
+
+    public int PlayerTurn()
     {
-        //1つ目の技の抽選
-        int R = Random.Range(0, 7);
-        Debug.Log($"乱数は{R}");
-        //このターンに使用した技の履歴リストに選ばれた技を追加する（2つ目以降の技の抽選時に重複を確認するために使う）
-        List<int> wazaHistory = new List<int>();
-        wazaHistory.Add(R);
-        Debug.Log(wazaHistory[0]);
+        endTurn = false;
+        wazaHistory.Clear();
+        turnProgressCount = 0;
+        totalDamage = 0;
 
-        //1つ目の技の成功判定
-        int S = Random.Range(0, 100);
-        Debug.Log($"成功判定の乱数は{S}（この数字より成功率が高いと攻撃成功）");
-        if (wazaList[R][0]>=S)//成功の場合
+        while (!endTurn)
         {
-            Debug.Log($"1撃目：{wazanameList[R]}{wazaTypeSO.wazaTypeName}!!");
-            Debug.Log($"敵に{wazaList[R][1]*wazaTypeSO.zangekiRate/100 + wazaList[R][2]*wazaTypeSO.sitotsuRate/100 + wazaList[R][3]*wazaTypeSO.dagekiRate/100}のダメージ");
-        }
-        else//失敗の場合
-        {
-            Debug.Log($"playerの{wazanameList[R]}は失敗した（成功率{wazaList[R][0]}、成功判定の乱数は{S}でした）");
+            WazaSelect();//技の抽選
+
+            WazaSuccessJudge();//技の成功判定
+
+            WazaChainJudge();//技の連携判定（攻撃の継続判定）
         }
 
-        //技の連携判定（攻撃の継続判定）
-        S = Random.Range(0, 100);
-        if (wazaList[R][7] < S)//失敗の場合
-        {
-            Debug.Log($"Playerの攻撃が終了（連携率{wazaList[R][7]}、連携判定の乱数は{S}でした）");
-            return;
-        }
+        Debug.Log($"ダメージの合計は{totalDamage}。Playerターンエンド。～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～～");
+        return totalDamage;
+    }
 
+    void WazaSelect()
+    {
+        Debug.Log("ランダムに選ばれる技の重複を判定します");
 
-
-
-
-
-
-
-
-        //2つ目の技の抽選
-        bool notRepeated = false;
-        //重複の確認と重複していた場合の再抽選
-        while (!notRepeated)
-        {
-            Debug.Log("重複の抽選をします");
-            notRepeated = true;
-            R = Random.Range(0, 7);
-            foreach (int history in wazaHistory)
-            {
-                if (R == history)
-                {
-                    notRepeated = false;
-                }
-            }
-        }
-        Debug.Log($"抽選が終わりました。乱数は{R}です");
-        //このターンに使用した技の履歴リストに選ばれた技を追加する
-        wazaHistory.Add(R);
-        Debug.Log($"1つ目の技は{wazaHistory[0]}/2つ目の技は{wazaHistory[1]}");
-
-        //2つ目の技の成功判定
-        S = Random.Range(0, 100);
-        Debug.Log($"成功判定の乱数は{S}（この数字より成功率が高いと攻撃成功）");
-        if (wazaList[R][0] >= S)//成功の場合
-        {
-            Debug.Log($"2撃目：{wazanameList[R]}{wazaTypeSO.wazaTypeName}!!");
-            Debug.Log($"敵に{wazaList[R][1] * wazaTypeSO.zangekiRate / 100 + wazaList[R][2] * wazaTypeSO.sitotsuRate / 100 + wazaList[R][3] * wazaTypeSO.dagekiRate / 100}のダメージ");
-        }
-        else//失敗の場合
-        {
-            Debug.Log($"playerの{wazanameList[R]}は失敗した（成功率{wazaList[R][0]}、成功判定の乱数は{S}でした）");
-        }
-
-        //技の連携判定（攻撃の継続判定）
-        S = Random.Range(0, 100);
-        if (wazaList[R][7] < S)//失敗の場合
-        {
-            Debug.Log($"Playerの攻撃が終了（連携率{wazaList[R][7]}、連携判定の乱数は{S}でした）");
-            return;
-        }
-
-
-
-
-
-
-
-
-
-
-        //3つ目の技の抽選
+        turnProgressCount++;
+        //技の抽選
         notRepeated = false;
-        //重複の確認と重複していた場合の再抽選
+        //重複の確認と重複していた場合の再抽選（重複しない番号が出るまで抽選を続ける）
         while (!notRepeated)
         {
-            Debug.Log("重複の抽選をします");
             notRepeated = true;
             R = Random.Range(0, 7);
             foreach (int history in wazaHistory)
@@ -191,81 +125,50 @@ public class PlayerManager : MonoBehaviour
             }
         }
         Debug.Log($"抽選が終わりました。乱数は{R}です");
-        //このターンに使用した技の履歴リストに選ばれた技を追加する
+        //技の履歴リストに選ばれた技を追加する
         wazaHistory.Add(R);
-        Debug.Log($"1つ目の技は{wazaHistory[0]}/2つ目の技は{wazaHistory[1]}/3つ目の技は{wazaHistory[2]}");
+        Debug.Log($"{turnProgressCount}撃目の技は{wazanameList[wazaHistory[turnProgressCount-1]]}{wazaTypeSO.wazaTypeName}");
+    }
 
-        //3つ目の技の成功判定
+    void WazaSuccessJudge()
+    {
+        Debug.Log("技の成功判定をします");
+
+        //技の成功判定
         S = Random.Range(0, 100);
-        Debug.Log($"成功判定の乱数は{S}（この数字より成功率が高いと攻撃成功）");
-        if (wazaList[R][0] >= S)//成功の場合
+        Debug.Log($"成功判定の乱数は{S}（この数字が{wazaList[R][0]}より低いならば攻撃成功）");
+        if (wazaList[R][0] >= S)//成功の場合（R番目に選ばれた技の要素0（＝命中率）を参照している）
         {
-            Debug.Log($"3撃目：{wazanameList[R]}{wazaTypeSO.wazaTypeName}!!");
-            Debug.Log($"敵に{wazaList[R][1] * wazaTypeSO.zangekiRate / 100 + wazaList[R][2] * wazaTypeSO.sitotsuRate / 100 + wazaList[R][3] * wazaTypeSO.dagekiRate / 100}のダメージ");
+            Debug.Log($"{turnProgressCount}撃目：{wazanameList[R]}{wazaTypeSO.wazaTypeName}!!敵に{wazaList[R][1] * wazaTypeSO.zangekiRate / 100 + wazaList[R][2] * wazaTypeSO.sitotsuRate / 100 + wazaList[R][3] * wazaTypeSO.dagekiRate / 100}のダメージ");//その技の斬撃/刺突/打撃ダメージと技タイプの係数を乗算してダメージを求めている
+            totalDamage += wazaList[R][1] * wazaTypeSO.zangekiRate / 100 + wazaList[R][2] * wazaTypeSO.sitotsuRate / 100 + wazaList[R][3] * wazaTypeSO.dagekiRate / 100;
         }
         else//失敗の場合
         {
-            Debug.Log($"playerの{wazanameList[R]}は失敗した（成功率{wazaList[R][0]}、成功判定の乱数は{S}でした）");
+            Debug.Log($"playerの{wazanameList[R]}{wazaTypeSO.wazaTypeName}は失敗した（成功率{wazaList[R][0]}未満で成功、成功判定の乱数は{S}でした）");
         }
+
+    }
+
+    void WazaChainJudge()
+    {
+        Debug.Log("継続の判定をします");
 
         //技の連携判定（攻撃の継続判定）
         S = Random.Range(0, 100);
         if (wazaList[R][7] < S)//失敗の場合
         {
-            Debug.Log($"Playerの攻撃が終了（連携率{wazaList[R][7]}、連携判定の乱数は{S}でした）");
-            return;
+            endTurn = true;
+            Debug.Log($"連携失敗、Playerの攻撃が終了（乱数が連携率{wazaList[R][7]}未満で成功、連携判定の乱数は{S}でした）");
         }
-
-
-
-
-
-
-
-
-
-
-        //4つ目の技の抽選
-        notRepeated = false;
-        //重複の確認と重複していた場合の再抽選
-        while (!notRepeated)
+        else
         {
-            Debug.Log("重複の抽選をします");
-            notRepeated = true;
-            R = Random.Range(0, 7);
-            foreach (int history in wazaHistory)
-            {
-                if (R == history)
-                {
-                    notRepeated = false;
-                }
-            }
+            Debug.Log($"連携成功（乱数が連携率{wazaList[R][7]}未満で成功、連携判定の乱数は{S}でした）");
         }
-        Debug.Log($"抽選が終わりました。乱数は{R}です");
-        //このターンに使用した技の履歴リストに選ばれた技を追加する
-        wazaHistory.Add(R);
-        Debug.Log($"1つ目の技は{wazaHistory[0]}/2つ目の技は{wazaHistory[1]}/3つ目の技は{wazaHistory[2]}/4つ目の技は{wazaHistory[3]}");
-
-        //4つ目の技の成功判定
-        S = Random.Range(0, 100);
-        Debug.Log($"成功判定の乱数は{S}（この数字より成功率が高いと攻撃成功）");
-        if (wazaList[R][0] >= S)//成功の場合
+        if (wazaHistory.Count >= 7)
         {
-            Debug.Log($"4撃目：{wazanameList[R]}{wazaTypeSO.wazaTypeName}!!");
-            Debug.Log($"敵に{wazaList[R][1] * wazaTypeSO.zangekiRate / 100 + wazaList[R][2] * wazaTypeSO.sitotsuRate / 100 + wazaList[R][3] * wazaTypeSO.dagekiRate / 100}のダメージ");
-        }
-        else//失敗の場合
-        {
-            Debug.Log($"playerの{wazanameList[R]}は失敗した（成功率{wazaList[R][0]}、成功判定の乱数は{S}でした）");
+            endTurn = true;
+            Debug.Log($"7撃目まで技が出たのでPlayerターン終了！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！");
         }
 
-        //技の連携判定（攻撃の継続判定）
-        S = Random.Range(0, 100);
-        if (wazaList[R][7] < S)//失敗の場合
-        {
-            Debug.Log($"Playerの攻撃が終了（連携率{wazaList[R][7]}、連携判定の乱数は{S}でした）");
-            return;
-        }
-        Debug.Log("本来は5撃目に続きます");
     }
 }
