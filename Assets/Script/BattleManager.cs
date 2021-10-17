@@ -8,8 +8,9 @@ public class BattleManager : MonoBehaviour
     public bool timeGoesBy=true;
     [SerializeField]PlayerManager player;
     [SerializeField]EnemyManager enemy;
-    public UIManager uIManager;
-
+/*    public UIManager uIManager;
+    [SerializeField] DamageTextGenerator damageTextGenerator;
+*/
     void Start()
     {
 
@@ -56,10 +57,12 @@ public class BattleManager : MonoBehaviour
     IEnumerator EnemyTurn()
     {
         Debug.Log("enemyのターン");
-        int damage = enemy.EnemyTurn();
-        yield return new WaitUntil(() => enemy.endTurn == true);
+
+        enemy.endCalculate = false;
+        enemy.EnemyTurn();
+        yield return new WaitUntil(() => enemy.endCalculate == true);
+
         Debug.Log("EnemyTurn終了");
-        player.hp -= damage;
         if (player.hp <= 0)
         {
             Debug.Log("決着");

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerManager : MonoBehaviour
+public class UnitManager : MonoBehaviour
 {
-    [SerializeField] EnemyManager enemy;
+    [SerializeField] UnitManager target;
+    [SerializeField] string unitName;
 
     public int maxHp;
     public int hp;
@@ -48,7 +49,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private GameObject damageText;
     [SerializeField]
-    private GameObject TargetPosition;
+    private GameObject targetPosition;
     [SerializeField]
     private Vector3 adjustPosition;
 
@@ -56,7 +57,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         wazaTypeSO = wazaTypeListSO.wazaTypeSOs[2];
-        Debug.Log($"æŠ€ã‚¿ã‚¤ãƒ—ãŒã€Œå‰£ã€ã«ãªã£ã¦ã„ã‚Œã°OK");
+        Debug.Log($"‹Zƒ^ƒCƒv‚ªuŒ•v‚É‚È‚Á‚Ä‚¢‚ê‚ÎOK");
 
         waza1 = new int[] { Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100) };
         waza2 = new int[] { Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100), Random.Range(0, 100) };
@@ -92,19 +93,12 @@ public class PlayerManager : MonoBehaviour
         hp = maxHp;
     }
 
-    void Update()
+    public void StartTurn()
     {
-
+        StartCoroutine("StartTurnCor");
     }
 
-
-
-    public void PlayerTurn()
-    {
-        StartCoroutine("PlayerTurnCor");
-    }
-
-    IEnumerator PlayerTurnCor()
+    IEnumerator StartTurnCor()
     {
         endTurn = false;
         wazaHistory.Clear();
@@ -113,17 +107,17 @@ public class PlayerManager : MonoBehaviour
 
         while (!endTurn)
         {
-            WazaSelect();//æŠ€ã®æŠ½é¸
+            WazaSelect();//‹Z‚Ì’Š‘I
 
-            WazaSuccessJudge();//æŠ€ã®æˆåŠŸåˆ¤å®š
+            WazaSuccessJudge();//‹Z‚Ì¬Œ÷”»’è
 
-            WazaChainJudge();//æŠ€ã®é€£æºåˆ¤å®šï¼ˆæ”»æ’ƒã®ç¶™ç¶šåˆ¤å®šï¼‰
+            WazaChainJudge();//‹Z‚Ì˜AŒg”»’èiUŒ‚‚ÌŒp‘±”»’èj
             yield return new WaitForSecondsRealtime(0.7f);
 
         }
         yield return new WaitForSecondsRealtime(1.5f);
 
-        Debug.Log($"ãƒ€ãƒ¡ãƒ¼ã‚¸ã®åˆè¨ˆã¯{totalDamage}ã€‚Playerã‚¿ãƒ¼ãƒ³ã‚¨ãƒ³ãƒ‰ã€‚ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½ï½");
+        Debug.Log($"ƒ_ƒ[ƒW‚Ì‡Œv‚Í{totalDamage}B{unitName}ƒ^[ƒ“ƒGƒ“ƒhB```````````````````````````````````````````````````````````````````````````````````````````````");
 
         yield return new WaitForSecondsRealtime(0.5f);
         endCalculate = true;
@@ -131,12 +125,12 @@ public class PlayerManager : MonoBehaviour
 
     void WazaSelect()
     {
-        Debug.Log("ãƒ©ãƒ³ãƒ€ãƒ ã«é¸ã°ã‚Œã‚‹æŠ€ã®é‡è¤‡ã‚’åˆ¤å®šã—ã¾ã™");
+        Debug.Log("ƒ‰ƒ“ƒ_ƒ€‚É‘I‚Î‚ê‚é‹Z‚Ìd•¡‚ğ”»’è‚µ‚Ü‚·");
 
         turnProgressCount++;
-        //æŠ€ã®æŠ½é¸
+        //‹Z‚Ì’Š‘I
         notRepeated = false;
-        //é‡è¤‡ã®ç¢ºèªã¨é‡è¤‡ã—ã¦ã„ãŸå ´åˆã®å†æŠ½é¸ï¼ˆé‡è¤‡ã—ãªã„ç•ªå·ãŒå‡ºã‚‹ã¾ã§æŠ½é¸ã‚’ç¶šã‘ã‚‹ï¼‰
+        //d•¡‚ÌŠm”F‚Æd•¡‚µ‚Ä‚¢‚½ê‡‚ÌÄ’Š‘Iid•¡‚µ‚È‚¢”Ô†‚ªo‚é‚Ü‚Å’Š‘I‚ğ‘±‚¯‚éj
         while (!notRepeated)
         {
             notRepeated = true;
@@ -149,58 +143,57 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
-        Debug.Log($"æŠ½é¸ãŒçµ‚ã‚ã‚Šã¾ã—ãŸã€‚ä¹±æ•°ã¯{R}ã§ã™");
-        //æŠ€ã®å±¥æ­´ãƒªã‚¹ãƒˆã«é¸ã°ã‚ŒãŸæŠ€ã‚’è¿½åŠ ã™ã‚‹
+        Debug.Log($"’Š‘I‚ªI‚í‚è‚Ü‚µ‚½B—”‚Í{R}‚Å‚·");
+        //‹Z‚Ì—š—ğƒŠƒXƒg‚É‘I‚Î‚ê‚½‹Z‚ğ’Ç‰Á‚·‚é
         wazaHistory.Add(R);
-        Debug.Log($"{turnProgressCount}æ’ƒç›®ã®æŠ€ã¯{wazanameList[wazaHistory[turnProgressCount - 1]]}{wazaTypeSO.wazaTypeName}");
+        Debug.Log($"{turnProgressCount}Œ‚–Ú‚Ì‹Z‚Í{wazanameList[wazaHistory[turnProgressCount - 1]]}{wazaTypeSO.wazaTypeName}");
     }
 
     void WazaSuccessJudge()
     {
-        Debug.Log("æŠ€ã®æˆåŠŸåˆ¤å®šã‚’ã—ã¾ã™");
+        Debug.Log("‹Z‚Ì¬Œ÷”»’è‚ğ‚µ‚Ü‚·");
 
-        //æŠ€ã®æˆåŠŸåˆ¤å®š
+        //‹Z‚Ì¬Œ÷”»’è
         S = Random.Range(0, 100);
-        Debug.Log($"æˆåŠŸåˆ¤å®šã®ä¹±æ•°ã¯{S}ï¼ˆã“ã®æ•°å­—ãŒ{wazaList[R][0]}ã‚ˆã‚Šä½ã„ãªã‚‰ã°æ”»æ’ƒæˆåŠŸï¼‰");
-        if (wazaList[R][0] >= S)//æˆåŠŸã®å ´åˆï¼ˆRç•ªç›®ã«é¸ã°ã‚ŒãŸæŠ€ã®è¦ç´ 0ï¼ˆï¼å‘½ä¸­ç‡ï¼‰ã‚’å‚ç…§ã—ã¦ã„ã‚‹ï¼‰
+        Debug.Log($"¬Œ÷”»’è‚Ì—”‚Í{S}i‚±‚Ì”š‚ª{wazaList[R][0]}‚æ‚è’á‚¢‚È‚ç‚ÎUŒ‚¬Œ÷j");
+        if (wazaList[R][0] >= S)//¬Œ÷‚Ìê‡iR”Ô–Ú‚É‘I‚Î‚ê‚½‹Z‚Ì—v‘f0i–½’†—¦j‚ğQÆ‚µ‚Ä‚¢‚éj
         {
             int amount = wazaList[R][1] * wazaTypeSO.zangekiRate / 100 + wazaList[R][2] * wazaTypeSO.sitotsuRate / 100 + wazaList[R][3] * wazaTypeSO.dagekiRate / 100;
 
             StartCoroutine(PlaySoundCor(0, 0f));
             ShowDamage(amount.ToString());
-            enemy.hp -= amount;
+            target.hp -= amount;
 
-            Debug.Log($"{turnProgressCount}æ’ƒç›®ï¼š{wazanameList[R]}{wazaTypeSO.wazaTypeName}!!æ•µã«{amount}ã®ãƒ€ãƒ¡ãƒ¼ã‚¸");//ãã®æŠ€ã®æ–¬æ’ƒ/åˆºçª/æ‰“æ’ƒãƒ€ãƒ¡ãƒ¼ã‚¸ã¨æŠ€ã‚¿ã‚¤ãƒ—ã®ä¿‚æ•°ã‚’ä¹—ç®—ã—ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’æ±‚ã‚ã¦ã„ã‚‹
+            Debug.Log($"{turnProgressCount}Œ‚–ÚF{wazanameList[R]}{wazaTypeSO.wazaTypeName}!!{target.unitName}‚É{amount}‚Ìƒ_ƒ[ƒW");//‚»‚Ì‹Z‚ÌaŒ‚/h“Ë/‘ÅŒ‚ƒ_ƒ[ƒW‚Æ‹Zƒ^ƒCƒv‚ÌŒW”‚ğæZ‚µ‚Äƒ_ƒ[ƒW‚ğ‹‚ß‚Ä‚¢‚é
             totalDamage += amount;
         }
-        else//å¤±æ•—ã®å ´åˆ
+        else//¸”s‚Ìê‡
         {
             StartCoroutine(PlaySoundCor(1, 0f));
             ShowDamage("miss");
-            Debug.Log($"playerã®{wazanameList[R]}{wazaTypeSO.wazaTypeName}ã¯å¤±æ•—ã—ãŸï¼ˆæˆåŠŸç‡{wazaList[R][0]}æœªæº€ã§æˆåŠŸã€æˆåŠŸåˆ¤å®šã®ä¹±æ•°ã¯{S}ã§ã—ãŸï¼‰");
+            Debug.Log($"player‚Ì{wazanameList[R]}{wazaTypeSO.wazaTypeName}‚Í¸”s‚µ‚½i¬Œ÷—¦{wazaList[R][0]}–¢–‚Å¬Œ÷A¬Œ÷”»’è‚Ì—”‚Í{S}‚Å‚µ‚½j");
         }
-
     }
 
     void WazaChainJudge()
     {
-        Debug.Log("ç¶™ç¶šã®åˆ¤å®šã‚’ã—ã¾ã™");
+        Debug.Log("Œp‘±‚Ì”»’è‚ğ‚µ‚Ü‚·");
 
-        //æŠ€ã®é€£æºåˆ¤å®šï¼ˆæ”»æ’ƒã®ç¶™ç¶šåˆ¤å®šï¼‰
+        //‹Z‚Ì˜AŒg”»’èiUŒ‚‚ÌŒp‘±”»’èj
         S = Random.Range(0, 100);
-        if (wazaList[R][7] < S)//å¤±æ•—ã®å ´åˆ
+        if (wazaList[R][7] < S)//¸”s‚Ìê‡
         {
             endTurn = true;
-            Debug.Log($"é€£æºå¤±æ•—ã€Playerã®æ”»æ’ƒãŒçµ‚äº†ï¼ˆä¹±æ•°ãŒé€£æºç‡{wazaList[R][7]}æœªæº€ã§æˆåŠŸã€é€£æºåˆ¤å®šã®ä¹±æ•°ã¯{S}ã§ã—ãŸï¼‰");
+            Debug.Log($"˜AŒg¸”sAPlayer‚ÌUŒ‚‚ªI—¹i—”‚ª˜AŒg—¦{wazaList[R][7]}–¢–‚Å¬Œ÷A˜AŒg”»’è‚Ì—”‚Í{S}‚Å‚µ‚½j");
         }
         else
         {
-            Debug.Log($"é€£æºæˆåŠŸï¼ˆä¹±æ•°ãŒé€£æºç‡{wazaList[R][7]}æœªæº€ã§æˆåŠŸã€é€£æºåˆ¤å®šã®ä¹±æ•°ã¯{S}ã§ã—ãŸï¼‰");
+            Debug.Log($"˜AŒg¬Œ÷i—”‚ª˜AŒg—¦{wazaList[R][7]}–¢–‚Å¬Œ÷A˜AŒg”»’è‚Ì—”‚Í{S}‚Å‚µ‚½j");
         }
         if (wazaHistory.Count >= 7)
         {
             endTurn = true;
-            Debug.Log($"7æ’ƒç›®ã¾ã§æŠ€ãŒå‡ºãŸã®ã§Playerã‚¿ãƒ¼ãƒ³çµ‚äº†ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼");
+            Debug.Log($"7Œ‚–Ú‚Ü‚Å‹Z‚ªo‚½‚Ì‚Å{unitName}ƒ^[ƒ“I—¹IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
         }
 
     }
@@ -209,7 +202,7 @@ public class PlayerManager : MonoBehaviour
     {
         GameObject _damageText = Instantiate(damageText, uICanvus.transform);
         _damageText.GetComponent<Text>().text = damageAmountOrText;
-        _damageText.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, TargetPosition.transform.position + adjustPosition);
+        _damageText.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, targetPosition.transform.position + adjustPosition);
     }
 
     IEnumerator PlaySoundCor(int id, float delay)

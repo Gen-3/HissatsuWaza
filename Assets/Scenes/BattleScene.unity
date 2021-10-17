@@ -410,6 +410,10 @@ MonoBehaviour:
   endTurn: 0
   endCalculate: 0
   audioManager: {fileID: 12755286}
+  uICanvus: {fileID: 1209200775}
+  damageText: {fileID: 5498640027934470260, guid: 0b34b45fff564dd4a859abafea231587, type: 3}
+  TargetPosition: {fileID: 290768044}
+  adjustPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &266607004
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +447,6 @@ MonoBehaviour:
   timeGoesBy: 1
   player: {fileID: 63728006}
   enemy: {fileID: 290768047}
-  uIManager: {fileID: 0}
 --- !u!4 &266607006
 Transform:
   m_ObjectHideFlags: 0
@@ -556,6 +559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7194d8601a54ed5bf673461e1ccb7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 63728006}
   maxHp: 2000
   hp: 0
   interval: 285
@@ -579,14 +583,20 @@ MonoBehaviour:
   - 
   - 
   - 
-  waza1: 0000000000000000000000000000000000000000000000000000000000000000
-  waza2: 0000000000000000000000000000000000000000000000000000000000000000
-  waza3: 0000000000000000000000000000000000000000000000000000000000000000
-  waza4: 0000000000000000000000000000000000000000000000000000000000000000
-  waza5: 0000000000000000000000000000000000000000000000000000000000000000
-  waza6: 0000000000000000000000000000000000000000000000000000000000000000
-  waza7: 0000000000000000000000000000000000000000000000000000000000000000
+  waza1: 
+  waza2: 
+  waza3: 
+  waza4: 
+  waza5: 
+  waza6: 
+  waza7: 
   endTurn: 0
+  endCalculate: 0
+  audioManager: {fileID: 12755286}
+  uICanvus: {fileID: 1209200775}
+  damageText: {fileID: 5498640027934470260, guid: 0b34b45fff564dd4a859abafea231587, type: 3}
+  TargetPosition: {fileID: 63728003}
+  adjustPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &448902227 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7897452501802568882, guid: dff62243de3f54727829ba82a899d32d, type: 3}
@@ -866,7 +876,7 @@ PrefabInstance:
     - target: {fileID: 7897452502850022576, guid: dff62243de3f54727829ba82a899d32d, type: 3}
       propertyPath: m_FontData.m_Font
       value: 
-      objectReference: {fileID: 12800000, guid: 522724d91dd64794ca0378ee60f89121, type: 3}
+      objectReference: {fileID: 12800000, guid: 1dffa3723aceb8b4db5e6879679ba689, type: 3}
     - target: {fileID: 7897452502850022576, guid: dff62243de3f54727829ba82a899d32d, type: 3}
       propertyPath: m_FontData.m_FontSize
       value: 40
@@ -1110,7 +1120,7 @@ PrefabInstance:
     - target: {fileID: 5137360782640111445, guid: 3f71fdadab61b4b0caefc31f0466887c, type: 3}
       propertyPath: m_FontData.m_Font
       value: 
-      objectReference: {fileID: 12800000, guid: 522724d91dd64794ca0378ee60f89121, type: 3}
+      objectReference: {fileID: 12800000, guid: 1dffa3723aceb8b4db5e6879679ba689, type: 3}
     - target: {fileID: 5137360782640111445, guid: 3f71fdadab61b4b0caefc31f0466887c, type: 3}
       propertyPath: m_FontData.m_MaxSize
       value: 52
